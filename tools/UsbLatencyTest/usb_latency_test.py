@@ -1,8 +1,9 @@
 """Measures USB serial round trip latency and throughput to UsbLatencyTest.ino, with pyserial.
 
-Usage (from /Python/PulsePal, whose uv environment has pyserial):
+Usage (from /Python/PulsePal in the PulsePal repository, cloned beside this one, whose uv environment
+has pyserial):
 
-    uv run python ../../Firmware/tools/UsbLatencyTest/usb_latency_test.py COM20
+    uv run python ../../../PulsePal-Firmware/tools/UsbLatencyTest/usb_latency_test.py COM20
 
 Each round trip writes one command and reads its whole reply; times are from
 time.perf_counter(), in ms. See UsbLatencyTest.ino for the commands.

@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //   Display.ino      Screen output, screen saver and splash screen
 //   HardwareIO.ino   DAC writes, output ranges, the sample clock's timer and software reset
 // Supporting classes: ArCOM (USB serial data types), LiquidCrystal_U8G2 (screen). Both are copies of the ones in
-// /Firmware/PulsePal.
+// /PulsePal.
 
 #define FIRMWARE_VERSION 1
 
@@ -236,7 +236,7 @@ static_assert((uint64_t)MAX_FREQUENCY_CENTIHZ * 4 <= (uint64_t)MAX_SAMPLING_RATE
               "At the highest frequency, 4 samples per cycle must fit in the highest sampling rate");
 
 // Timed DAC updates, see dacLoadTimed() in HardwareIO.ino. As in Pulse Pal 3 firmware (DAC_LATCH_US in
-// /Firmware/PulsePal/PulsePal.ino), with the write times measured in Synth Pal's handler(): 1.38us for one channel
+// /PulsePal/PulsePal.ino), with the write times measured in Synth Pal's handler(): 1.38us for one channel
 // and 4.67us for four, the longest of 60000 ticks each.
 #define CPU_CYCLES_PER_US (F_CPU / 1000000) // DAC updates are timed in CPU cycles: see "The time base" in HardwareIO.ino
 #define CPU_CYCLES_PER_TIMER_TICK (F_CPU / TIMER_CLOCK_HZ) // 25 at 600MHz
@@ -269,7 +269,7 @@ static_assert(F_CPU % TIMER_CLOCK_HZ == 0, "The CPU clock must be a whole multip
                               // 1. Higher values can draw excess current from the USB supply. 2. To extend the lifetime of the display
 #define SCREEN_SAVER_DIM_BRIGHTNESS 8 // Brightness while the screen saver dims the screen
 
-// EEPROM layout. These are Pulse Pal firmware's addresses (/Firmware/PulsePal/PulsePal.ino), so the calibration and
+// EEPROM layout. These are Pulse Pal firmware's addresses (/PulsePal/PulsePal.ino), so the calibration and
 // the screen saver settings carry over when a device changes firmware.
 #define EEPROM_ZERO_CODE_CALIBRATION_ADDRESS 0 // ZeroCodeCalibration (int16 x 4), set by Pulse Pal firmware's op 96
 #define EEPROM_SCREEN_SAVER_ADDRESS 16 // screenSaverEnabled (byte), then screenSaverTimeout (uint16)

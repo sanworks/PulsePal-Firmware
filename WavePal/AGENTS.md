@@ -25,7 +25,7 @@ The sketch is split into tabs. Arduino joins them into one file before compiling
 | `Display.ino` | Screen output, the screen saver and the splash screen |
 | `HardwareIO.ino` | DAC writes, the output range, software reset |
 
-`ArCOM.h` and `LiquidCrystal_U8G2` are copies of the files in `/Firmware/PulsePal`. Keep them
+`ArCOM.h` and `LiquidCrystal_U8G2` are copies of the files in `/PulsePal`. Keep them
 in step: a fix to one usually belongs in both. `GFXData.h` holds the Sanworks logo and the Wave
 Pal logo.
 
@@ -135,20 +135,22 @@ of that is the wait before the latch (rule 9).
 
 ## Checks
 
+The tests are in the PulsePal repository, with the clients, and run from its root.
+
 Without a device:
 
 ```bash
-cd /Python/PulsePal && uv run python tests/test_wavepal_protocol.py
+cd Python/PulsePal && uv run python tests/test_wavepal_protocol.py
 ```
 
 With a Wave Pal on a USB port (about 110 s; `--quick` skips the 1M sample tests):
 
 ```bash
-cd /Python/PulsePal && uv run python tests/wavepal_hardware_test.py COM3
+cd Python/PulsePal && uv run python tests/wavepal_hardware_test.py COM3
 
 # With a Pulse Pal (Pulse Pal firmware) whose outputs 1 and 2 drive trigger channels 1 and 2, for
 # the trigger mode and param sync tests
-cd /Python/PulsePal && uv run python tests/wavepal_hardware_test.py COM3 --driver COM4
+cd Python/PulsePal && uv run python tests/wavepal_hardware_test.py COM3 --driver COM4
 ```
 
 It checks every sample played against the waveforms it loaded, using op 90, including
@@ -178,7 +180,7 @@ matlab -batch "addpath('MATLAB', 'MATLAB/tests'); testWavePalDevice('COM3')"
 ```
 
 A change to the protocol needs both classes, `/Python/PulsePal/pulsepal/wave_pal.py` and
-`/MATLAB/@WavePalDevice/WavePalDevice.m`, updated to match.
+`/MATLAB/@WavePalDevice/WavePalDevice.m` in the PulsePal repository, updated to match.
 
 Only a scope and a person can check the rest. After a change to playback, triggers or the
 menu, check:

@@ -555,7 +555,7 @@ void processUSBCommands() {
           #if (HARDWARE_VERSION == 2)
             if (playbackOngoing()) { // The card cannot be used without pausing playback, so nothing is done
               resumeTimerAfterSD();
-              PPUSB.writeByte(2); // Refused while a channel plays (Pulse Pal 2 only, see /Firmware/PROTOCOL.md)
+              PPUSB.writeByte(2); // Refused while a channel plays (Pulse Pal 2 only, see /PROTOCOL.md)
               break;
             }
           #endif
@@ -738,7 +738,7 @@ void processUSBCommands() {
           sendSerialNumber();
         } break;
         case OP_JOYSTICK_TEST: { // Op 104. Joystick test, for bench testing and diagnostics only (runJoystickTest()). Used by
-                                 // /MATLAB/tests/PulsePal3_QCTest.m. Replies 1 as it starts, and the results when it ends.
+                                 // PulsePal3_QCTest.m (PulsePal repository). Replies 1 as it starts, and the results when it ends.
           inByte2 = PPUSB.readByte(); // Seconds allowed for each of the test's steps
           if (inByte2 == 0) {
             PPUSB.writeByte(0);
@@ -799,7 +799,7 @@ void loadParamsFromBuffer(const uint8_t *buffer) {
 // parameters in the order they arrive on the wire, which is the order of the copies below, and is also the order
 // sendCurrentParams() writes them in. Each parameter array in it holds one value per output channel, so this takes
 // only this channel's value from each and steps over the rest. Both supported boards are little-endian, like the
-// wire format, so the multi-byte values need no rearranging. See /Firmware/PROTOCOL.md.
+// wire format, so the multi-byte values need no rearranging. See /PROTOCOL.md.
 //
 // This is the only description of the buffer's layout that the loading path has: loadParamsFromBuffer() above is a
 // loop over it, and param sync mode uses it to load one channel at a time. Trigger mode is not an output channel

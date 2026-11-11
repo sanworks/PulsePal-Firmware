@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // arduino-cli compile --build-property compiler.cpp.extra_flags=-DHARDWARE_VERSION=2 ...
 // This does not work when building for Pulse Pal v3: the Teensy core's platform.txt has no
 // compiler.cpp.extra_flags, so the flag is accepted and then dropped, and the macros below decide.
-// Edit them instead, as Firmware/tools/build_check.py does in a temporary copy of the sketch.
+// Edit them instead, as tools/build_check.py does in a temporary copy of the sketch.
 #ifndef HARDWARE_VERSION
   #define HARDWARE_VERSION 3 // Use: 2 = Pulse Pal v2.X (as marked on PCB), 3 = Pulse Pal v3.X
 #endif
@@ -462,7 +462,7 @@ static_assert(OP73_N_BYTES == PARAM_BUFFER_N_BYTES - sizeof(ContinuousLoopMode),
 // To add a parameter: add its array and its code to enum ParamID above, add a row here in code order, and add the
 // code to menuActionParams below if it should appear in the joystick menu. The USB ops that carry whole parameter
 // sets (73, 92 and 93) and the settings file (SDSettings.ino) still list parameters explicitly, because their byte
-// layouts are fixed by the protocol. See the menu map above UpdateSettingsMenu() and /Firmware/PROTOCOL.md.
+// layouts are fixed by the protocol. See the menu map above UpdateSettingsMenu() and /PROTOCOL.md.
 // ---------------------------------------------------------------------------------------------------------------
 
 // Values of OutputParam.type. Each value is the number of bytes the parameter occupies in a USB command.

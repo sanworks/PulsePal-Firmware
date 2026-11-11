@@ -16,7 +16,7 @@ See the GNU General Public License for more details.
 
 */
 
-// ArCOM reads and writes the data types of the Pulse Pal USB protocol (see /Firmware/PROTOCOL.md).
+// ArCOM reads and writes the data types of the Pulse Pal USB protocol (see /PROTOCOL.md).
 // It was derived from the general purpose ArCOM library, and has since been tailored to this firmware.
 //
 // How it behaves:
