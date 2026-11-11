@@ -5,15 +5,16 @@ triangle, square or sawtooth wave or white noise, or steps to a fixed voltage, w
 triggered, with its own
 amplitude, mean voltage, resting voltage, play duration, and on and off ramps, at one frequency
 shared by all four channels. This page is the reference for its USB serial protocol, as of Synth
-Pal firmware v1.
+Pal firmware v1. Its clients are in the [PulsePal repository](https://github.com/sanworks/PulsePal),
+at these paths:
 
 | Client | Location |
 |---|---|
 | Python class | `pulsepal.SynthPalDevice`, in `/Python/PulsePal/pulsepal/synth_pal.py` |
 | MATLAB class | `/MATLAB/@SynthPalDevice/SynthPalDevice.m` |
 
-On the device, `processUSBCommands()` in `/Firmware/SynthPal/USBOps.ino` executes commands, and
-the `OpCode` enum in `/Firmware/SynthPal/SynthPal.ino` defines the codes.
+On the device, `processUSBCommands()` in `/SynthPal/USBOps.ino` executes commands, and
+the `OpCode` enum in `/SynthPal/SynthPal.ino` defines the codes.
 
 **The numbers on this page are fixed** once a client has been released: installed clients use
 these op codes and message layouts. New functionality gets a new op code.
@@ -120,7 +121,7 @@ in its fixed voltage, and any other channel's in its peak to peak voltage. They 
 value of the other one, reduced if need be to suit the mean voltage read back.
 
 Op 90 is for testing, like Wave Pal's op 90: `/Python/PulsePal/tests/synthpal_hardware_test.py`
-and `/MATLAB/tests/testSynthPalDevice.m` use it to check the samples a device played. While a
+and `/MATLAB/tests/testSynthPalDevice.m`, in the PulsePal repository, use it to check the samples a device played. While a
 channel plays, its count includes its next sample, which is computed one sample period before it
 reaches the output. Once the channel has stopped, the count and the sum are of the samples that
 reached the output, however it stopped: at the end of its play duration, or by op 88, a toggle or
@@ -366,7 +367,7 @@ All channels share one sample clock, which runs only while a channel is playing.
 
 ## Timeouts and error handling
 
-As in Pulse Pal firmware (see `/Firmware/PROTOCOL.md`): a read gives up if no byte arrives for
+As in Pulse Pal firmware (see `/PROTOCOL.md`): a read gives up if no byte arrives for
 100 ms. The device then stops all playback, shows "COMM. FAILURE!", and waits for a joystick
 click; it then loads the default settings. Replies are buffered and sent when the command
 finishes.

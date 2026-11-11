@@ -26,7 +26,7 @@ that reason.
 | `Display.ino` | Screen output, the screen saver and the splash screen |
 | `HardwareIO.ino` | DAC writes, output ranges, the sample clock's timer and its time base, software reset |
 
-`ArCOM.h` and `LiquidCrystal_U8G2` are copies of the files in `/Firmware/PulsePal`, as Wave
+`ArCOM.h` and `LiquidCrystal_U8G2` are copies of the files in `/PulsePal`, as Wave
 Pal's are. Keep them in step: a fix to one usually belongs in all three. `GFXData.h` holds the
 Sanworks logo and the Synth Pal logo.
 
@@ -155,19 +155,21 @@ in 10 s of four channels playing sine waves at 100 kHz, 4 s of it in their ramps
 
 ## Checks
 
+The tests are in the PulsePal repository, with the clients, and run from its root.
+
 Without a device:
 
 ```bash
-cd /Python/PulsePal && uv run python tests/test_synthpal_protocol.py
+cd Python/PulsePal && uv run python tests/test_synthpal_protocol.py
 ```
 
 With a Synth Pal on a USB port (about 25 s; `--quick` skips the 10 s four channel test):
 
 ```bash
-cd /Python/PulsePal && uv run python tests/synthpal_hardware_test.py COM3
+cd Python/PulsePal && uv run python tests/synthpal_hardware_test.py COM3
 
 # With a Pulse Pal (Pulse Pal firmware) whose outputs 1 and 2 drive the trigger channels 1 and 2
-cd /Python/PulsePal && uv run python tests/synthpal_hardware_test.py COM3 --driver COM4
+cd Python/PulsePal && uv run python tests/synthpal_hardware_test.py COM3 --driver COM4
 ```
 
 It checks every sample played against a model of the firmware's synthesis, which computes each DAC
@@ -194,7 +196,7 @@ matlab -batch "addpath('MATLAB', 'MATLAB/tests'); testSynthPalDevice('COM3')"
 ```
 
 A change to the protocol needs both classes, `/Python/PulsePal/pulsepal/synth_pal.py` and
-`/MATLAB/@SynthPalDevice/SynthPalDevice.m`, updated to match.
+`/MATLAB/@SynthPalDevice/SynthPalDevice.m` in the PulsePal repository, updated to match.
 
 Only a scope, a TTL source and a person can check the rest. After a change to playback,
 triggers or the menu, check:

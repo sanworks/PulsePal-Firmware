@@ -11,13 +11,16 @@ MATLAB without the Pulse Pal firmware.
 
 ## Running it
 
-Uploading the sketch replaces the Pulse Pal firmware; upload `/Firmware/PulsePal` again afterwards.
+Uploading the sketch replaces the Pulse Pal firmware; upload `/PulsePal` again afterwards. From this repository's root,
+with the PulsePal repository cloned beside it (the Python client runs in its uv environment, which has pyserial):
 
 ```bash
-arduino-cli compile --fqbn teensy:avr:teensy41:usb=serial --build-path <build> Firmware/tools/UsbLatencyTest
-arduino-cli upload --fqbn teensy:avr:teensy41:usb=serial -p <teensy port, e.g. usb:0/140000/0/6> --protocol teensy --input-dir <build> Firmware/tools/UsbLatencyTest
-cd Python/PulsePal && uv run python ../../Firmware/tools/UsbLatencyTest/usb_latency_test.py COM20
+arduino-cli compile --fqbn teensy:avr:teensy41:usb=serial --build-path <build> tools/UsbLatencyTest
+arduino-cli upload --fqbn teensy:avr:teensy41:usb=serial -p <teensy port, e.g. usb:0/140000/0/6> --protocol teensy --input-dir <build> tools/UsbLatencyTest
+cd ../PulsePal/Python/PulsePal && uv run python ../../../PulsePal-Firmware/tools/UsbLatencyTest/usb_latency_test.py COM20
 ```
+
+The `dotnet...Test.m` scripts below find the MATLAB classes and the Python environment in that clone too.
 
 In MATLAB, from this folder: `usbLatencyTest('COM20')`. The 1 ms timer tests need `pyenv` with `ExecutionMode`
 `"InProcess"` and `pyrun` (R2021b or newer); they are skipped otherwise.
@@ -54,7 +57,7 @@ Windows 11, Teensy 4.1 (Teensyduino 1.62), a 1 byte echo, median of 200 round tr
 
 ## .NET robustness, 2026-09-29
 
-Before `PulsePalDevice` moved to .NET on Windows, `pulsepal.DotNetSerialPort` (`/MATLAB/+pulsepal`) was compared with
+Before `PulsePalDevice` moved to .NET on Windows, `pulsepal.DotNetSerialPort` (`/MATLAB/+pulsepal` in the PulsePal repository) was compared with
 `serialport` on a Pulse Pal 3 running Pulse Pal firmware, on R2020b and R2025b (16 logical cores):
 
 - `dotnetRobustnessTest.m`: the op 72 handshake round trip, a 60 KB custom train (op 95) and a 178 byte read (op 93),

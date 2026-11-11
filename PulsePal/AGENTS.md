@@ -1,8 +1,9 @@
 # Working on the Pulse Pal firmware
 
 This folder holds the current firmware (v22). One sketch builds for **both** Pulse Pal 2
-(Arduino Due) and Pulse Pal 3 (Teensy 4.1). Read this page before changing anything here.
-The USB protocol it implements is documented in `/Firmware/PROTOCOL.md`.
+(Arduino Due) and Pulse Pal 3 (Teensy 4.1). Read this page before changing anything here,
+and `/AGENTS.md` for the repository as a whole: branches, releases, and the clients in the
+PulsePal repository. The USB protocol it implements is documented in `/PROTOCOL.md`.
 
 ## Where things are
 
@@ -147,7 +148,7 @@ the `--show` output before concluding that a function really changed.
 8. **Times are hardware timer cycles, not microseconds.** `SystemTime` counts ticks of
    `TIMER_PERIOD`: 10 µs on Pulse Pal 3, 50 µs on Pulse Pal 2 (and on Pulse Pal 3's pin map 0).
    Clients and settings files from before October 2026 count 50 µs cycles, so the device
-   converts them (see "Time units" in `/Firmware/PROTOCOL.md`). A USB session that connected with
+   converts them (see "Time units" in `/PROTOCOL.md`). A USB session that connected with
    op 72 sends and receives 50 µs cycles: `usbTimeToCycles()` multiplies each time it sends by
    `usbTimeFactor` (`LEGACY_TIME_FACTOR`, 5, after op 72; 1 after op 103, the current classes'
    handshake), and `cyclesToUSBTime()` divides each time the device sends. Every op that carries a
@@ -165,7 +166,7 @@ the `--show` output before concluding that a function really changed.
    edges in its GPIO port (`setupTriggerEdgeLatches()`), and so detects any pulse longer than
    0.5 µs; Pulse Pal 2, and Pulse Pal 3 firmware from before October 2026, do not. Times have a
    maximum of `MAX_TIME_CYCLES` (9999.9999 s) in the menu and the clients: the most Pulse Pal
-   2's editor (8 digits) holds. See "Value limits" in `/Firmware/PROTOCOL.md`.
+   2's editor (8 digits) holds. See "Value limits" in `/PROTOCOL.md`.
 9. **Keep the existing names.** The lead developer navigates this code from memory during
    support calls. Renaming variables or reformatting whole files costs more than it saves.
 10. **EEPROM writes stop all interrupts** (Pulse Pal 3). The Teensy 4.1 emulates its EEPROM in
@@ -277,11 +278,11 @@ and clears them with interrupts off), all output channel parameters, the custom 
    - Settings file: `SaveCurrentProgram2SD()`, `RestoreParametersFromSD()`, the layout
      comment above them and `SETTINGS_FILE_N_PARAM_BYTES`. Appending after the end marker
      keeps existing files loadable.
-5. `/Firmware/PROTOCOL.md`, and the Python, MATLAB and C++ clients.
-6. Run `/Python/PulsePal/tests/test_protocol.py`.
+5. `/PROTOCOL.md`, and the Python, MATLAB and C++ clients (PulsePal repository).
+6. Run `/Python/PulsePal/tests/test_protocol.py` (PulsePal repository).
 
 **Adding a USB op.** Add it to the `OpCode` enum with the next free number, add its case in
-`processUSBCommands()`, validate its inputs (rule 5), document it in `/Firmware/PROTOCOL.md`,
+`processUSBCommands()`, validate its inputs (rule 5), document it in `/PROTOCOL.md`,
 and say which clients use it.
 
 ## Testing on a device
@@ -315,9 +316,9 @@ playback, the menu or the USB ops, ask the user to check:
   back unchanged; a settings file saved by older firmware (end marker 252) loads with the same
   times; the joystick editor's 5th decimal steps by 0.00001 s.
 - After a change to serial code: USB latency and throughput, with
-  `/Python/PulsePal/tests/benchmark_serial.py`, before and after the change. Also unplug the
-  USB cable during a pulse: the device shows "COMM. FAILURE!" and the outputs return to their
-  resting voltage.
+  `/Python/PulsePal/tests/benchmark_serial.py` (PulsePal repository), before and after the
+  change. Also unplug the USB cable during a pulse: the device shows "COMM. FAILURE!" and the
+  outputs return to their resting voltage.
 
 ## Known limits
 
@@ -329,5 +330,5 @@ playback, the menu or the USB ops, ask the user to check:
   probably mostly `UpdateSettingsMenu()`'s two `analogRead()`s) and a few µs while one plays. So
   whether two commands that arrive together take effect in the same 10 µs cycle depends on
   whether a channel is playing, and separate calls from the classes on Windows arrive 0.05 to
-  1.5 ms apart. This is documented ("Commands in series" in `/Firmware/PROTOCOL.md`) rather than
+  1.5 ms apart. This is documented ("Commands in series" in `/PROTOCOL.md`) rather than
   changed: commands run in order, and one command acts on several channels in the same cycle.

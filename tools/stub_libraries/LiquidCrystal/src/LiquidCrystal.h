@@ -3,7 +3,7 @@
 
   The Pulse Pal 2 firmware uses LiquidCrystal for its 16x2 character LCD. This stub lets
   the Pulse Pal 2 build be compiled and compared on a machine without that library, e.g.
-  by Firmware/tools/build_check.py or in continuous integration.
+  by tools/build_check.py or in continuous integration.
 
   Every method does nothing, so a binary built with this stub shows nothing on the screen.
   NEVER flash a binary built with this stub. To build a real Pulse Pal 2 binary, install

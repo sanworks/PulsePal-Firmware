@@ -2,15 +2,16 @@
 
 Wave Pal is alternative firmware for Pulse Pal 3 hardware. It stores four sampled waveforms on
 the microSD card, and each output channel plays one of them when it is triggered. This page is
-the reference for its USB serial protocol, as of Wave Pal firmware v1.
+the reference for its USB serial protocol, as of Wave Pal firmware v1. Its clients are in the
+[PulsePal repository](https://github.com/sanworks/PulsePal), at these paths:
 
 | Client | Location |
 |---|---|
 | Python class | `pulsepal.WavePalDevice`, in `/Python/PulsePal/pulsepal/wave_pal.py` |
 | MATLAB class | `/MATLAB/@WavePalDevice/WavePalDevice.m` |
 
-On the device, `processUSBCommands()` in `/Firmware/WavePal/USBOps.ino` executes commands, and
-the `OpCode` enum in `/Firmware/WavePal/WavePal.ino` defines the codes.
+On the device, `processUSBCommands()` in `/WavePal/USBOps.ino` executes commands, and
+the `OpCode` enum in `/WavePal/WavePal.ino` defines the codes.
 
 **The numbers on this page are fixed** once a client has been released: installed clients use
 these op codes and message layouts. New functionality gets a new op code.
@@ -39,7 +40,7 @@ ASCII letters of the matching WavePlayer ops (Bpod Analog Output Module), where 
 The Python and MATLAB classes connect in this order:
 
 1. Op 72 (handshake). A Wave Pal replies `87` ('W'). A Pulse Pal replies `75` ('K') to the
-   same op, and a Synth Pal (`/Firmware/SynthPal`) `83` ('S'), so each client can tell which
+   same op, and a Synth Pal (`/SynthPal`) `83` ('S'), so each client can tell which
    firmware a device runs, and say so. The Pulse Pal and Synth Pal clients do the same the
    other way round. A firmware version newer than the client knows is used, with a warning:
    new firmware only adds ops. As for Pulse Pal (see its
@@ -106,7 +107,7 @@ addresses, so they carry over when a device changes firmware. The device saves t
 channel is playing, so a change made during playback is saved when it stops.
 
 Op 90 is for testing, like Pulse Pal's debugging ops 86 and 87: `/Python/PulsePal/tests/wavepal_hardware_test.py`
-and `/MATLAB/tests/testWavePalDevice.m` use it to check every sample a device played against the waveform
+and `/MATLAB/tests/testWavePalDevice.m`, in the PulsePal repository, use it to check every sample a device played against the waveform
 they loaded.
 
 Op 33 stops playback on its channels. The voltage holds until the channel plays or is stopped. It
@@ -301,7 +302,7 @@ change keeps it in volts. A sync output that is high changes to a new voltage at
 
 ## Timeouts and error handling
 
-As in Pulse Pal firmware (see `/Firmware/PROTOCOL.md`): a read gives up if no byte arrives for
+As in Pulse Pal firmware (see `/PROTOCOL.md`): a read gives up if no byte arrives for
 100 ms. The device then stops all playback, shows "COMM. FAILURE!", and waits for a joystick
 click; it then loads the default settings. A waveform whose transfer was cut short is not stored,
 as for any failed op 76 (see [Waveforms](#waveforms)). Replies are buffered and sent when the

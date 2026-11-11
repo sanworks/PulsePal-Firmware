@@ -9,7 +9,7 @@
 
 function dotnetRemovalTest(portName, backend, when)
 here = fileparts(mfilename('fullpath'));
-addpath(fullfile(here, '..', '..', '..', 'MATLAB'));
+addpath(fullfile(here, '..', '..', '..', 'PulsePal', 'MATLAB')); % The PulsePal repository, cloned beside this one
 fprintf('MATLAB %s, backend %s, removal while %s\n', version('-release'), backend, when);
 switch backend
     case 'serialport'

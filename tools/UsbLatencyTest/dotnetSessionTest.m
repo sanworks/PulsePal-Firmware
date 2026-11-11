@@ -7,7 +7,7 @@
 
 function dotnetSessionTest(portName, buildPath)
 here = fileparts(mfilename('fullpath'));
-addpath(fullfile(here, '..', '..', '..', 'MATLAB'));
+addpath(fullfile(here, '..', '..', '..', 'PulsePal', 'MATLAB')); % The PulsePal repository, cloned beside this one
 fprintf('MATLAB %s\n', version('-release'));
 
 t = tic;

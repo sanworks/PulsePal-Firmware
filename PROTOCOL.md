@@ -3,7 +3,8 @@
 This is the reference for the USB serial protocol between a Pulse Pal and its client
 software, as of firmware v22. It applies to Pulse Pal 2 and Pulse Pal 3 except where noted.
 
-Four clients use this protocol, and all of them must agree with the firmware:
+Four clients use this protocol, and all of them must agree with the firmware. They are in the
+[PulsePal repository](https://github.com/sanworks/PulsePal), at these paths:
 
 | Client | Location |
 |---|---|
@@ -12,8 +13,8 @@ Four clients use this protocol, and all of them must agree with the firmware:
 | MATLAB legacy functions | `/MATLAB/Legacy/` |
 | C++ class | `/c++/PulsePal.cpp` |
 
-On the device, `processUSBCommands()` in `/Firmware/PulsePal/USBOps.ino` executes commands,
-and the `OpCode` and `ParamID` enums in `/Firmware/PulsePal/PulsePal.ino` define the codes.
+On the device, `processUSBCommands()` in `/PulsePal/USBOps.ino` executes commands,
+and the `OpCode` and `ParamID` enums in `/PulsePal/PulsePal.ino` define the codes.
 
 **The numbers on this page are fixed.** Installed copies of the clients use these op codes,
 parameter codes and message layouts, so they must never be renumbered or reordered. New
@@ -49,8 +50,8 @@ The Python, MATLAB and C++ classes connect in this order:
    than one reply, from Pulse Pal firmware v22 or newer, the classes send op 103 again, which the
    device, now listening, answers at once. They wait up to 10 s for the reply to op 72 (the
    Python and MATLAB classes' default port timeout). A device running Wave Pal firmware
-   (`/Firmware/WavePal`) replies `87` ('W') instead, and one running Synth Pal firmware
-   (`/Firmware/SynthPal`) `83` ('S'). The Python, MATLAB and C++ classes then
+   (`/WavePal`) replies `87` ('W') instead, and one running Synth Pal firmware
+   (`/SynthPal`) `83` ('S'). The Python, MATLAB and C++ classes then
    say which firmware the device runs, and that it needs Pulse Pal firmware. They refuse
    firmware older than v21, and connect to v21 with a notice that v22 is available.
    A firmware version newer than the client knows is used, with a warning: new firmware only
@@ -320,7 +321,7 @@ record exactly which hardware ran an experiment.
 ### Joystick test
 
 Op 104 tests the thumb joystick with an operator, for bench testing (the QC panel,
-`/MATLAB/tests/PulsePal3_QCTest.m`) and diagnostics; it is not in the joystick menu, and the
+`/MATLAB/tests/PulsePal3_QCTest.m` in the PulsePal repository) and diagnostics; it is not in the joystick menu, and the
 classes do not send it. The device stops playback, and then takes over until the test ends: it
 reads no other command meanwhile. Unlike other ops, it sends the first byte of its reply at once,
 as the test starts, so that a client can tell within a moment whether the firmware has op 104
@@ -496,7 +497,7 @@ that default, so that rig code written for them works unchanged:
 
 - The legacy Python class programs its own defaults when it connects (1 ms pulses, 10 ms apart),
   with every output channel linked to trigger channel 1. So does the C++ class.
-- The legacy MATLAB functions (`/MATLAB/Legacy`) program nothing when they connect, and assume the
+- The legacy MATLAB functions (`/MATLAB/Legacy` in the PulsePal repository) program nothing when they connect, and assume the
   device holds `DefaultPulsePalParameters`, which links trigger channel 1. On firmware v22 they read
   the device's parameters (op 93), and if no output channel is linked to either trigger channel,
   they link every output channel to trigger channel 1 (op 91, parameter 12). A device with some

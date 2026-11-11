@@ -9,19 +9,19 @@ identical. If a function you did not intend to change shows up as changed, look 
 Examples:
 
     # Compile for Pulse Pal 3 and Pulse Pal 2
-    python Firmware/tools/build_check.py
+    python tools/build_check.py
 
     # Compile, then compare every function with the last commit
-    python Firmware/tools/build_check.py --compare HEAD
+    python tools/build_check.py --compare HEAD
 
     # Only Pulse Pal 3
-    python Firmware/tools/build_check.py --hardware 3
+    python tools/build_check.py --hardware 3
 
-    # The Wave Pal firmware (Firmware/WavePal), which runs on Pulse Pal 3 only
-    python Firmware/tools/build_check.py --sketch wavepal --compare HEAD
+    # The Wave Pal firmware (/WavePal), which runs on Pulse Pal 3 only
+    python tools/build_check.py --sketch wavepal --compare HEAD
 
-    # The Synth Pal firmware (Firmware/SynthPal), which also runs on Pulse Pal 3 only
-    python Firmware/tools/build_check.py --sketch synthpal
+    # The Synth Pal firmware (/SynthPal), which also runs on Pulse Pal 3 only
+    python tools/build_check.py --sketch synthpal
 
 Requirements:
   - arduino-cli, with the teensy:avr and arduino:sam cores installed. The Arduino IDE
@@ -46,25 +46,26 @@ import sys
 import tempfile
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 STUB_LIBRARIES = Path(__file__).resolve().parent / "stub_libraries"
 
 # The sketches this script builds. paths_in_git lists the folder's names in git history, for --compare
 SKETCHES = {
     "pulsepal": {
-        "dir": REPO_ROOT / "Firmware" / "PulsePal",
-        # Revisions before the folder was renamed to PulsePal (2026-10) had it as PulsePal3, and before that PulsePal_3
-        "paths_in_git": ["Firmware/PulsePal", "Firmware/PulsePal3", "Firmware/PulsePal_3"],
+        "dir": REPO_ROOT / "PulsePal",
+        # This repository's history starts at v22 (November 2026). Older revisions are in the PulsePal repository's
+        # history, as Firmware/PulsePal, and before that Firmware/PulsePal3 and Firmware/PulsePal_3
+        "paths_in_git": ["PulsePal"],
         "hardware": [2, 3],
     },
     "wavepal": {
-        "dir": REPO_ROOT / "Firmware" / "WavePal",
-        "paths_in_git": ["Firmware/WavePal"],
+        "dir": REPO_ROOT / "WavePal",
+        "paths_in_git": ["WavePal"],
         "hardware": [3],
     },
     "synthpal": {
-        "dir": REPO_ROOT / "Firmware" / "SynthPal",
-        "paths_in_git": ["Firmware/SynthPal"],
+        "dir": REPO_ROOT / "SynthPal",
+        "paths_in_git": ["SynthPal"],
         "hardware": [3],
     },
 }
@@ -255,8 +256,8 @@ def checkout(git_reference, destination, paths_in_git):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--sketch", choices=sorted(SKETCHES), default="pulsepal",
-                        help="Firmware to build: pulsepal (Firmware/PulsePal, the default), wavepal "
-                             "(Firmware/WavePal) or synthpal (Firmware/SynthPal). Wave Pal and Synth Pal run on "
+                        help="Firmware to build: pulsepal (/PulsePal, the default), wavepal "
+                             "(/WavePal) or synthpal (/SynthPal). Wave Pal and Synth Pal run on "
                              "Pulse Pal 3 only")
     parser.add_argument("--hardware", choices=["2", "3", "both"], default="both",
                         help="Hardware version to build for (default: both)")

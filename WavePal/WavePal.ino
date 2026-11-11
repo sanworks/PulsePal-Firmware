@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //   Display.ino      Screen output, screen saver and splash screen
 //   HardwareIO.ino   DAC writes, the output range and software reset
 // Supporting classes: ArCOM (USB serial data types), LiquidCrystal_U8G2 (screen). Both are copies of the ones in
-// /Firmware/PulsePal.
+// /PulsePal.
 
 #define FIRMWARE_VERSION 1
 
@@ -183,7 +183,7 @@ enum MenuItem {
                               // 1. Higher values can draw excess current from the USB supply. 2. To extend the lifetime of the display
 #define SCREEN_SAVER_DIM_BRIGHTNESS 8 // Brightness while the screen saver dims the screen
 
-// EEPROM layout. These are Pulse Pal firmware's addresses (/Firmware/PulsePal/PulsePal.ino), so the calibration and
+// EEPROM layout. These are Pulse Pal firmware's addresses (/PulsePal/PulsePal.ino), so the calibration and
 // the screen saver settings carry over when a device changes firmware.
 #define EEPROM_ZERO_CODE_CALIBRATION_ADDRESS 0 // ZeroCodeCalibration (int16 x 4), set by Pulse Pal firmware's op 96
 #define EEPROM_SCREEN_SAVER_ADDRESS 16 // screenSaverEnabled (byte), then screenSaverTimeout (uint16)

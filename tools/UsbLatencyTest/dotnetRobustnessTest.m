@@ -1,9 +1,11 @@
-% dotnetRobustnessTest compares pulsepal.DotNetSerialPort (/MATLAB/+pulsepal) with MATLAB's serialport, on a Pulse Pal
-% running Pulse Pal firmware: latency at idle and under CPU load, large transfers, a long run, timeouts, a port in use
-% by another program, a missing port, repeated opening and closing, and clearing a port without closing it.
+% dotnetRobustnessTest compares pulsepal.DotNetSerialPort (/MATLAB/+pulsepal in the PulsePal repository) with
+% MATLAB's serialport, on a Pulse Pal running Pulse Pal firmware: latency at idle and under CPU load, large transfers,
+% a long run, timeouts, a port in use by another program, a missing port, repeated opening and closing, and clearing a
+% port without closing it.
 %
 % Usage: dotnetRobustnessTest('COM20')
-% Uses the Python in /Python/PulsePal/.venv (run "uv sync" there) for cpu_load.py and to hold the port from another process.
+% Uses the Python in the PulsePal repository's /Python/PulsePal/.venv (run "uv sync" there) for cpu_load.py and to
+% hold the port from another process.
 % Unplugging (surprise removal) is tested separately, by dotnetRemovalTest.m.
 
 function dotnetRobustnessTest(portName, varargin)
@@ -12,7 +14,7 @@ addParameter(p, 'Quick', false); % Skips the CPU load and long runs
 parse(p, varargin{:});
 quick = p.Results.Quick;
 here = fileparts(mfilename('fullpath'));
-addpath(fullfile(here, '..', '..', '..', 'MATLAB'));
+addpath(fullfile(here, '..', '..', '..', 'PulsePal', 'MATLAB')); % The PulsePal repository, cloned beside this one
 nCores = feature('numcores');
 nLogical = str2double(getenv('NUMBER_OF_PROCESSORS'));
 fprintf('MATLAB %s, %s, %d cores (%d logical), DotNetSerialPort available: %d\n\n', version('-release'), portName, ...
@@ -227,7 +229,7 @@ tf = status == 0;
 end
 
 function exe = pythonExe()
-exe = fullfile(fileparts(mfilename('fullpath')), '..', '..', '..', 'Python', 'PulsePal', '.venv', 'Scripts', 'python.exe');
+exe = fullfile(fileparts(mfilename('fullpath')), '..', '..', '..', 'PulsePal', 'Python', 'PulsePal', '.venv', 'Scripts', 'python.exe');
 end
 
 function bytes = memoryUsed()

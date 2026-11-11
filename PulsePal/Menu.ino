@@ -1088,7 +1088,7 @@ unsigned int ReturnUserValue(unsigned int startValue, unsigned long LowerLimit, 
 // down and right above ClickerMaxThreshold. The screen says so, and asks for the next direction once the joystick is
 // back in the middle. The resting position is measured first, with the joystick left alone: it must lie
 // JOYSTICK_TEST_MARGIN inside the thresholds, or the menu would see a push that nobody made. Each step waits up to
-// stepTimeout seconds. Writes the reply described under op 104 in /Firmware/PROTOCOL.md: its first byte as the test
+// stepTimeout seconds. Writes the reply described under op 104 in /PROTOCOL.md: its first byte as the test
 // starts, the rest as it ends.
 // The test takes the device over until it ends: playback is stopped first, USB commands wait, and the screen returns
 // to the top menu.
